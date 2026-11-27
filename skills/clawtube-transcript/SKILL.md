@@ -5,7 +5,7 @@ description: Get a single YouTube video's transcript with timestamps, locally, n
 
 # clawtube-transcript
 
-Use the `clawtube` CLI to fetch a single video's transcript. If it is not on PATH, install it: `pipx install "git+https://github.com/mehmetresitgul/clawtube.git"` (or `pip install` with the same URL; for the local-transcription fallback for videos with no captions at all, use `"clawtube[whisper] @ git+https://github.com/mehmetresitgul/clawtube.git"`).
+Use the `clawtube` CLI to fetch a single video's transcript. If it is not on PATH, install it: `pipx install clawtube` (or `pip install clawtube`; for the local-transcription fallback for videos with no captions at all, `pipx install "clawtube[whisper]"`).
 
 ```bash
 clawtube video "<video-url-or-id>" --out <output-dir>

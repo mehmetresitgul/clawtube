@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-27
+
+First public release.
+
 ### Added
 - `clawtube channel <url-or-@handle>` command, and `--limit N` for `playlist` and `channel`.
 - `--cookies` and `--cookies-from-browser` to get past YouTube's bot check and age gates.
@@ -25,8 +29,8 @@ All notable changes to this project are documented here. The format follows
 - Ready for public use: code of conduct, pull request template, feature-request template, a
   private route for security reports, Dependabot for GitHub Actions, and a "Responsible use"
   section in the README.
-- README: install from GitHub with pipx/uv (not on PyPI yet), options table, correct cache location,
-  and how to update so yt-dlp gets refreshed too. Clearer `clawtube --help` with examples.
+- README: install with `pip`/`pipx`/`uv`, options table, correct cache location, and how to update
+  so yt-dlp gets refreshed too. Clearer `clawtube --help` with examples.
 - Requires Python 3.10+ and `yt-dlp[default]>=2025.11.12`. Older yt-dlp releases (the newest
   ones pip would pick on Python 3.9) no longer work with YouTube. The `[default]` extra brings
   yt-dlp's solver for YouTube's JavaScript challenge, and clawtube now enables any installed JS
@@ -90,3 +94,6 @@ All notable changes to this project are documented here. The format follows
 - Resumable playlist runs (`.clawtube_state.json`) and an on-disk transcript cache.
 - Backoff and cooldown retries for YouTube rate limiting.
 - Agent skills: `clawtube-full`, `clawtube-transcript`, `clawtube-playlist`.
+
+[Unreleased]: https://github.com/mehmetresitgul/clawtube/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/mehmetresitgul/clawtube/releases/tag/v0.1.0

@@ -1,8 +1,9 @@
 # clawtube 🦞🎬
 
-[![License: MIT](https://img.shields.io/github/license/mehmetresitgul/clawtube)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/clawtube)](https://pypi.org/project/clawtube/)
+[![License: MIT](https://img.shields.io/github/license/mehmetresitgul/clawtube)](https://github.com/mehmetresitgul/clawtube/blob/main/LICENSE)
 [![CI](https://github.com/mehmetresitgul/clawtube/actions/workflows/ci.yml/badge.svg)](https://github.com/mehmetresitgul/clawtube/actions/workflows/ci.yml)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://github.com/mehmetresitgul/clawtube/blob/main/pyproject.toml)
 [![GitHub stars](https://img.shields.io/github/stars/mehmetresitgul/clawtube?style=social)](https://github.com/mehmetresitgul/clawtube/stargazers)
 
 > Turn one YouTube playlist link into a full set of clean, timestamped transcripts - no API key, no cloud account, runs on your own machine.
@@ -10,7 +11,7 @@
 clawtube is an [Agent Skill](https://skills.sh) + standalone CLI for extracting YouTube transcripts at scale: a single video, every video in a playlist, or a whole channel in one command. It's built local-first - it never asks you to sign up for a third-party transcript service or hand over an API key.
 
 ```bash
-pipx install "git+https://github.com/mehmetresitgul/clawtube.git"
+pipx install clawtube
 clawtube playlist "https://www.youtube.com/playlist?list=PLAYLIST_ID"
 ```
 
@@ -20,7 +21,7 @@ The CLI works anywhere. The skills are written for agent runtimes that support t
 
 ## Demo
 
-[![clawtube turning Y Combinator's AI Startup School playlist into 17 Markdown transcripts in 56 seconds](assets/demo.jpg)](https://www.youtube.com/playlist?list=PLQ-uHSnFig5NPx4adxl97CZb8vU4numwi)
+[![clawtube turning Y Combinator's AI Startup School playlist into 17 Markdown transcripts in 56 seconds](https://raw.githubusercontent.com/mehmetresitgul/clawtube/main/assets/demo.jpg)](https://www.youtube.com/playlist?list=PLQ-uHSnFig5NPx4adxl97CZb8vU4numwi)
 
 A real run, not a mock-up: Y Combinator's [AI Startup School](https://www.youtube.com/playlist?list=PLQ-uHSnFig5NPx4adxl97CZb8vU4numwi) playlist (Andrej Karpathy, Sam Altman, Satya Nadella, Fei-Fei Li, Andrew Ng and more) - 17 talks, 11.4 hours of video, about 130,000 words of timestamped transcript in 56 seconds. (Background: Claude Monet, [*Charing Cross Bridge, London*](https://www.artic.edu/artworks/16544), 1901, Art Institute of Chicago, public domain.) Try it yourself:
 
@@ -44,19 +45,21 @@ clawtube needs Python 3.10+ (3.11+ recommended, so pip can install the newest yt
 
 **1. The CLI**
 
-clawtube is not on PyPI yet; install it straight from GitHub. [pipx](https://pipx.pypa.io/) (or `uv tool install`) keeps it in its own environment and puts `clawtube` on your `PATH`:
+[pipx](https://pipx.pypa.io/) (or `uv tool install`) keeps clawtube in its own environment and puts `clawtube` on your `PATH`:
 
 ```bash
-pipx install "git+https://github.com/mehmetresitgul/clawtube.git"
-# or: uv tool install "git+https://github.com/mehmetresitgul/clawtube.git"
-# or, into the current environment: pip install "git+https://github.com/mehmetresitgul/clawtube.git"
+pipx install clawtube
+# or: uv tool install clawtube
+# or, into the current environment: pip install clawtube
 ```
 
 With the optional local Whisper fallback (for videos with no captions at all):
 
 ```bash
-pipx install "clawtube[whisper] @ git+https://github.com/mehmetresitgul/clawtube.git"
+pipx install "clawtube[whisper]"
 ```
+
+The latest development version straight from GitHub: `pipx install "git+https://github.com/mehmetresitgul/clawtube.git"`.
 
 Check it works: `clawtube --help`. For the most reliable YouTube extraction, have a JavaScript runtime installed - [Deno](https://deno.com/), Node.js or Bun; clawtube enables whichever one it finds so yt-dlp can solve YouTube's player challenge. Audio transcription via `--whisper-fallback` additionally needs [ffmpeg](https://ffmpeg.org/) on your `PATH`.
 
@@ -70,7 +73,7 @@ With the [skills CLI](https://skills.sh):
 npx skills add mehmetresitgul/clawtube --skill clawtube-full
 ```
 
-Or copy a skill folder from [`skills/`](skills) into your agent's skills directory by hand, e.g. for Claude Code:
+Or copy a skill folder from [`skills/`](https://github.com/mehmetresitgul/clawtube/tree/main/skills) into your agent's skills directory by hand, e.g. for Claude Code:
 
 ```bash
 cp -r skills/clawtube-full ~/.claude/skills/
@@ -168,7 +171,7 @@ pip install -e ".[dev]"
 pytest
 ```
 
-The tests mock YouTube entirely, so they run offline. See [CHANGELOG.md](CHANGELOG.md) for release notes and [RELEASING.md](RELEASING.md) for how releases are cut.
+The tests mock YouTube entirely, so they run offline. See [CHANGELOG.md](https://github.com/mehmetresitgul/clawtube/blob/main/CHANGELOG.md) for release notes and [RELEASING.md](https://github.com/mehmetresitgul/clawtube/blob/main/RELEASING.md) for how releases are cut.
 
 ## Troubleshooting
 
@@ -192,8 +195,8 @@ clawtube fetches captions that YouTube already shows to anyone watching the vide
 
 ## Contributing
 
-Contributions are welcome - see [CONTRIBUTING.md](CONTRIBUTING.md), then open an issue or a pull request. Please follow the [code of conduct](CODE_OF_CONDUCT.md), and report security issues privately as described in [SECURITY.md](SECURITY.md).
+Contributions are welcome - see [CONTRIBUTING.md](https://github.com/mehmetresitgul/clawtube/blob/main/CONTRIBUTING.md), then open an issue or a pull request. Please follow the [code of conduct](https://github.com/mehmetresitgul/clawtube/blob/main/CODE_OF_CONDUCT.md), and report security issues privately as described in [SECURITY.md](https://github.com/mehmetresitgul/clawtube/blob/main/SECURITY.md).
 
 ## License
 
-MIT - see [LICENSE](LICENSE).
+MIT - see [LICENSE](https://github.com/mehmetresitgul/clawtube/blob/main/LICENSE).
