@@ -1,0 +1,82 @@
+name: Release
+
+# Push a tag like v0.1.0 to publish. Requires a PyPI "trusted publisher"
+# configured for this repo/workflow (see RELEASING.md); no API token needed.
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install build twine pytest
+      - run: pip install -e . && pytest -q
+      - run: python -m build
+      - run: twine check --strict dist/*
+      - name: Tag matches package version
+        run: |
+          v=$(python -c "import clawtube; print(clawtube.__version__)")
+          test "v$v" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != version v$v"; exit 1; }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # Re-running a release (e.g. a re-created tag) must not fail on files
+          # PyPI already has.
+          skip-existing: true
+
+  github-release:
+    # After PyPI accepted the upload: a GitHub Release with the changelog
+    # section for this version and the built files attached.
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Release notes from CHANGELOG.md
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          awk -v v="$v" '
+            $0 ~ "^## \\[" v "\\]" {grab=1; next}
+            grab && /^## \[/ {exit}
+            grab && /^\[[^]]+\]: / {exit}
+            grab {print}
+          ' CHANGELOG.md > notes.md
+          printf '\n---\nInstall: `pip install clawtube==%s` (or `pipx install clawtube`)\n' "$v" >> notes.md
+          cat notes.md
+      - name: Create or update the release
+        # The tag may come from a release drafted in GitHub's UI (which creates
+        # the tag); then fill in that release instead of creating a second one.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/* --clobber
+            gh release edit "$GITHUB_REF_NAME" --title "clawtube $GITHUB_REF_NAME" --notes-file notes.md
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* --title "clawtube $GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+          fi

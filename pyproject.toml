@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clawtube"
+version = "0.1.0"
+description = "Local-first YouTube transcript extraction for AI agents - single videos, channels, and full playlists, no API key required."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Text Processing",
+]
+authors = [{ name = "Mehmet Resit Gul" }]
+keywords = ["youtube", "transcript", "agent-skills", "claude", "claude-code", "openclaw", "clawhub", "hermes-agent", "whisper", "cli"]
+dependencies = [
+    # [default] pulls in yt-dlp-ejs, the solver for YouTube's JS challenge.
+    # YouTube breaks old yt-dlp releases regularly; keep this recent.
+    "yt-dlp[default]>=2025.11.12",
+    "youtube-transcript-api>=1.0.0",
+    "rich>=13.7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/mehmetresitgul/clawtube"
+Repository = "https://github.com/mehmetresitgul/clawtube"
+Issues = "https://github.com/mehmetresitgul/clawtube/issues"
+Changelog = "https://github.com/mehmetresitgul/clawtube/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+whisper = ["faster-whisper>=1.0.0"]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+clawtube = "clawtube.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --w: 1600px; --h: 1000px;
+    --ink: #e9e6df; --dim: #8f97a6; --green: #7ee2a8; --amber: #ffcf7a;
+    --red: #ff7b72; --blue: #8ab4ff; --violet: #c4a7ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: var(--w); height: var(--h); background: #1b1d2a; overflow: hidden; }
+  body { font-family: Inter, sans-serif; color: var(--ink); position: relative; }
+  #paint { position: absolute; inset: 0; width: var(--w); height: var(--h); object-fit: cover; filter: saturate(1.18) brightness(1.04); }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(130% 100% at 50% 40%, transparent 70%, rgba(40,30,60,.18) 100%); }
+
+  /* headline */
+  .headglow { position: absolute; left: 0; top: 0; right: 0; height: 240px; background: linear-gradient(rgba(30,26,52,.38), rgba(30,26,52,.10) 75%, transparent); }
+  .head { position: absolute; left: 80px; top: 58px; right: 80px; display: flex;
+    align-items: flex-end; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo { font-size: 46px; filter: drop-shadow(0 6px 14px rgba(0,0,0,.35)); }
+  .name { font: 800 54px/1 "Inter Display", Inter, sans-serif; letter-spacing: -1.5px;
+    color: #fffaf0; text-shadow: 0 4px 24px rgba(10,10,30,.45); }
+  .tag { font: 600 25px/1.25 "Inter Display", Inter, sans-serif; color: #fff6e6;
+    margin-top: 12px; text-shadow: 0 2px 16px rgba(10,10,30,.6); letter-spacing: -.3px; }
+  .stat { padding: 18px 24px 17px; border-radius: 18px; text-align: left;
+    background: rgba(20,18,36,.66); border: 1px solid rgba(255,255,255,.16);
+    backdrop-filter: blur(14px); box-shadow: 0 14px 40px rgba(20,10,40,.28); }
+  .stat .k { font: 700 12.5px/1 Inter, sans-serif; letter-spacing: 1.6px; text-transform: uppercase;
+    color: #c9c2e6; display: flex; align-items: center; gap: 8px; }
+  .stat .k i { width: 8px; height: 8px; border-radius: 50%; background: #7ee2a8;
+    box-shadow: 0 0 0 4px rgba(126,226,168,.18); display: inline-block; }
+  .stat .v { font: 800 31px/1.15 "Inter Display", Inter, sans-serif; letter-spacing: -.6px;
+    color: #fff; margin: 11px 0 9px; white-space: nowrap; }
+  .stat .v em { font-style: normal; color: #ffcf7a; }
+  .stat .v .arr { color: #c4b5fd; margin: 0 6px; font-weight: 600; }
+  .stat .s { font: 500 15.5px/1.2 Inter, sans-serif; color: #e4def7; white-space: nowrap; }
+  .stat .s b { color: #fff; font-weight: 700; }
+
+  /* windows */
+  .win { position: absolute; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 40px 90px rgba(5,5,20,.55), 0 10px 30px rgba(5,5,20,.35),
+                inset 0 0 0 1px rgba(255,255,255,.10); }
+  .bar { height: 42px; display: flex; align-items: center; padding: 0 16px; gap: 8px;
+    background: rgba(40,42,58,.92); border-bottom: 1px solid rgba(255,255,255,.07); }
+  .dot { width: 13px; height: 13px; border-radius: 50%; }
+  .bar .title { flex: 1; text-align: center; font: 500 14px Inter, sans-serif; color: #a9afbd;
+    margin-right: 60px; }
+
+  .term { left: 80px; top: 250px; width: 850px; height: 620px;
+    background: rgba(17,18,28,.90); backdrop-filter: blur(16px); }
+  .term pre { font: 400 16.5px/1.62 "JetBrains Mono", monospace; padding: 22px 26px;
+    white-space: pre; color: var(--ink); }
+  .p { color: var(--green); font-weight: 700; }
+  .cmd { color: #fff; }
+  .url { color: var(--blue); }
+  .flag { color: var(--violet); }
+  .muted { color: var(--dim); }
+  .ok { color: var(--green); }
+  .bold { font-weight: 700; color: #fff; }
+  .barfill { color: #c4b5fd; }
+  .file { color: #d7dbe4; }
+  .id { color: var(--amber); }
+  .cursor { display: inline-block; width: 10px; height: 19px; background: #e9e6df;
+    vertical-align: -3px; }
+
+  .md { left: 900px; top: 300px; width: 620px; height: 640px;
+    background: rgba(252,250,245,.97); color: #1f2330; }
+  .md .bar { background: rgba(236,232,224,.98); border-bottom: 1px solid #ddd6ca; }
+  .md .bar .title { color: #6b6457; }
+  .doc { padding: 26px 32px; font-size: 15px; line-height: 1.55; }
+  .doc h1 { font: 800 27px/1.2 "Inter Display", Inter, sans-serif; letter-spacing: -.5px;
+    color: #14161f; margin-bottom: 12px; }
+  .meta { list-style: none; margin-bottom: 16px; display: grid; grid-template-columns: auto 1fr;
+    gap: 3px 12px; font-size: 14px; }
+  .meta dt { color: #7b7466; font-weight: 600; }
+  .meta dd { color: #2a2e3a; }
+  .doc h2 { font: 700 13px/1 Inter, sans-serif; text-transform: uppercase; letter-spacing: 1.4px;
+    color: #a0522d; margin: 16px 0 9px; }
+  .ch, .ln { display: flex; gap: 12px; align-items: baseline; }
+  .ch { font-size: 14.5px; margin: 3px 0; color: #2a2e3a; }
+  .ts { font: 600 12.5px "JetBrains Mono", monospace; color: #1d4ed8; background: #e7eefe;
+    padding: 2px 7px; border-radius: 6px; flex: none; }
+  .ln { margin: 6px 0; font-size: 15px; color: #262a35; }
+  .hl { background: linear-gradient(transparent 55%, #ffd88a 55%); }
+  .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 70px;
+    background: linear-gradient(rgba(252,250,245,0), rgba(252,250,245,1)); }
+
+  .arrow { position: absolute; left: 860px; top: 600px; font: 800 40px Inter; color: #fff;
+    text-shadow: 0 4px 18px rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+<img id="paint" src="monet-charing-cross.jpg" alt="">
+<div class="vignette"></div>
+<div class="headglow"></div>
+
+<div class="head">
+  <div>
+    <div class="brand"><span class="logo">🦞</span><span class="name">clawtube</span></div>
+    <div class="tag">One YouTube playlist link &rarr; every transcript, clean and timestamped.</div>
+  </div>
+  <div class="stat">
+    <div class="k"><i></i>Real run · YC AI Startup School playlist</div>
+    <div class="v"><em>11.4 h</em> of video<span class="arr">&rarr;</span><em>130k</em> words</div>
+    <div class="s"><b>17 talks</b> transcribed in <b>56 seconds</b> &nbsp;·&nbsp; no API key</div>
+  </div>
+</div>
+</div>
+
+<div class="win term">
+  <div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span class="title">zsh — clawtube</span></div>
+<pre><span class="p">~ ❯</span> <span class="cmd">clawtube playlist</span> <span class="url">"https://www.youtube.com/playlist?</span>
+<span class="url">    list=PLQ-uHSnFig5NPx4adxl97CZb8vU4numwi"</span> <span class="flag">--out yc</span> <span class="flag">--concurrency 2</span>
+done: -7Qz7tSTfUU <span class="barfill">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> 17/17 <span class="muted">0:00:55</span>
+
+<span class="bold">Done.</span> {<span class="ok">'done': 17</span>}
+
+<span class="p">~ ❯</span> <span class="cmd">ls yc</span>
+<span class="file">Andrej Karpathy_ Software Is Changing _Again__<span class="id">LCEmiRjPEtQ</span>.md</span>
+<span class="file">Sam Altman_ The Future of OpenAI_ ChatGPT_s Or…_<span class="id">V979Wd1gmTU</span>.md</span>
+<span class="file">Elon Musk_ Digital Superintelligence_ Multipla…_<span class="id">cFIlta1GkiE</span>.md</span>
+<span class="file">Satya Nadella_ Microsoft_s AI Bets_ Hyperscali…_<span class="id">AUUZuzVHKdo</span>.md</span>
+<span class="file">Fei-Fei Li_ Spatial Intelligence is the Next F…_<span class="id">_PioN-CpOP0</span>.md</span>
+<span class="file">François Chollet_ How We Get To AGI_<span class="id">5QcCeSsNRks</span>.md</span>
+<span class="file">Andrew Ng_ Building Faster with AI_<span class="id">RNJCfif1dPY</span>.md</span>
+<span class="file">Michael Truell_ Building Cursor At 23_ Taking …_<span class="id">TrXi3naD6Og</span>.md</span>
+<span class="file">Aravind Srinivas_ Perplexity_s Race to Build A…_<span class="id">2jOnoTEk-xA</span>.md</span>
+<span class="muted">… and 8 more</span>
+
+<span class="p">~ ❯</span> <span class="cursor"></span></pre>
+</div>
+
+<div class="win md">
+  <div class="bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span class="title">Andrej Karpathy_ Software Is Changing _Again__LCEmiRjPEtQ.md</span></div>
+  <div class="doc">
+    <h1>Andrej Karpathy: Software Is Changing (Again)</h1>
+    <dl class="meta">
+      <dt>Channel</dt><dd>Y Combinator</dd>
+      <dt>Duration</dt><dd>39:31 &nbsp;·&nbsp; uploaded 2025-06-19</dd>
+      <dt>Transcript</dt><dd>yt-dlp (en)</dd>
+    </dl>
+    <h2>Chapters</h2>
+    <div class="ch"><span class="ts">01:25</span>Software evolution: From 1.0 to 3.0</div>
+    <div class="ch"><span class="ts">04:40</span>Programming in English: Rise of Software 3.0</div>
+    <div class="ch"><span class="ts">06:10</span>LLMs as utilities, fabs, and operating systems</div>
+    <div class="ch"><span class="ts">29:06</span>Vibe Coding: Everyone is now a programmer</div>
+    <h2>Transcript</h2>
+    <div class="ln"><span class="ts">03:19</span><span>software 3.0. And basically your prompts are now programs that program the LLM.</span></div>
+    <div class="ln"><span class="ts">03:25</span><span>And uh remarkably uh these uh prompts are written in English. So it's kind of</span></div>
+    <div class="ln"><span class="ts">04:20</span><span>captured the attention of a lot of people and this is my currently pinned</span></div>
+    <div class="ln"><span class="ts">04:23</span><span>tweet uh is that remarkably <span class="hl">we're now programming computers in English.</span></span></div>
+    <div class="ln"><span class="ts">04:28</span><span>when I was at uh Tesla, um we were working on the uh autopilot and uh we</span></div>
+  </div>
+  <div class="fade"></div>
+</div>
+
+<script>
+// Background: Claude Monet, Charing Cross Bridge, London (1901), Art Institute of Chicago, public domain (CC0).
+const img = document.getElementById('paint');
+const done = () => { document.body.dataset.ready = '1'; };
+if (img.complete) done(); else img.onload = done;
+</script>
+</body>
+</html>
