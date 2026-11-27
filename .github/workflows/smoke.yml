@@ -19,6 +19,16 @@ jobs:
       - run: pip install -e .
       - name: Fetch one short video (https://youtu.be/jNQXAC9IVRw)
         run: |
-          clawtube video jNQXAC9IVRw --out smoke_out
+          set +e
+          clawtube video jNQXAC9IVRw --out smoke_out 2>&1 | tee smoke.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -ne 0 ] && grep -q "not a bot" smoke.log; then
+            # YouTube often walls off GitHub's own runner IPs entirely. That says
+            # nothing about clawtube, so report it as inconclusive, not a failure.
+            echo "::warning::YouTube bot-checked this GitHub runner's IP; smoke test inconclusive"
+            exit 0
+          fi
+          test "$status" -eq 0
           grep -q "^## Transcript" smoke_out/*.md
           ! grep -q "<c>" smoke_out/*.md  # no raw VTT timing tags may leak into the output
