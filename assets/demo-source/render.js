@@ -1,6 +1,7 @@
 // Renders demo.html to ../demo.jpg-ready PNG: `node render.js demo@2x.png 2`
-// (needs Playwright with Chromium). The oil-paint background is generated in
-// the page with a fixed seed, so every render is identical.
+// (needs Playwright with Chromium). Background: Claude Monet, "Water Lilies"
+// (1906), Art Institute of Chicago, public domain (CC0) -
+// https://www.artic.edu/artworks/16568 - cropped to 16:10 in monet-water-lilies.jpg.
 const { chromium } = require('playwright');
 (async () => {
   const browser = await chromium.launch();
