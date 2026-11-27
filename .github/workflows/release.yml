@@ -64,7 +64,15 @@ jobs:
           ' CHANGELOG.md > notes.md
           printf '\n---\nInstall: `pip install clawtube==%s` (or `pipx install clawtube`)\n' "$v" >> notes.md
           cat notes.md
-      - name: Create the release
+      - name: Create or update the release
+        # The tag may come from a release drafted in GitHub's UI (which creates
+        # the tag); then fill in that release instead of creating a second one.
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/* --title "clawtube $GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/* --clobber
+            gh release edit "$GITHUB_REF_NAME" --title "clawtube $GITHUB_REF_NAME" --notes-file notes.md
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* --title "clawtube $GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+          fi

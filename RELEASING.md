@@ -3,7 +3,8 @@
 1. Update `version` in `pyproject.toml` and `__version__` in `src/clawtube/__init__.py`
    (they must match), and move the `[Unreleased]` notes in `CHANGELOG.md` under the new version.
 2. Merge to `main` with CI green, then run the *Live smoke test* workflow (Actions tab, "Run workflow") to confirm it still works against the real YouTube.
-3. Tag and push: `git tag v0.1.0 && git push origin v0.1.0`.
+3. Tag and push: `git tag v0.1.0 && git push origin v0.1.0` - or on GitHub, *Releases → Draft a new
+   release*, type the new tag (e.g. `v0.1.0`) with target `main`, and publish; that creates the tag.
    The `Release` workflow tests, builds, checks the tag against the package version, publishes to PyPI
    and then creates the GitHub Release with that version's CHANGELOG section and the built files.
 
