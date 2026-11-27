@@ -16,7 +16,7 @@ You have access to the `clawtube` CLI, which fetches YouTube transcripts through
 
 ## How to use it
 
-1. If `clawtube` is not on PATH, install it: `pipx install "git+https://github.com/mehmetresitgul/clawtube.git"` (or `pip install` with the same URL; for the local-transcription fallback for videos with no captions at all, use `"clawtube[whisper] @ git+https://github.com/mehmetresitgul/clawtube.git"`).
+1. If `clawtube` is not on PATH, install it: `pipx install clawtube` (or `pip install clawtube`; for the local-transcription fallback for videos with no captions at all, `pipx install "clawtube[whisper]"`).
 2. For a single video:
    ```bash
    clawtube video "<video-url-or-id>" --langs <preferred-lang-codes> --out <output-dir>

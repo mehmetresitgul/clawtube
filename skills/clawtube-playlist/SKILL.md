@@ -5,7 +5,7 @@ description: Extract transcripts for every video in a YouTube playlist, locally,
 
 # clawtube-playlist
 
-Use the `clawtube` CLI to bulk-extract transcripts for an entire playlist. If it is not on PATH, install it: `pipx install "git+https://github.com/mehmetresitgul/clawtube.git"` (or `pip install` with the same URL; for the local-transcription fallback for videos with no captions at all, use `"clawtube[whisper] @ git+https://github.com/mehmetresitgul/clawtube.git"`).
+Use the `clawtube` CLI to bulk-extract transcripts for an entire playlist. If it is not on PATH, install it: `pipx install clawtube` (or `pip install clawtube`; for the local-transcription fallback for videos with no captions at all, `pipx install "clawtube[whisper]"`).
 
 ```bash
 clawtube playlist "<playlist-url-or-id>" --langs <preferred-lang-codes> --out <output-dir> --concurrency 4
