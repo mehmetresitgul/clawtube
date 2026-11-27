@@ -24,12 +24,19 @@
     color: #fffaf0; text-shadow: 0 4px 24px rgba(10,10,30,.45); }
   .tag { font: 600 25px/1.25 "Inter Display", Inter, sans-serif; color: #fff6e6;
     margin-top: 12px; text-shadow: 0 2px 16px rgba(10,10,30,.6); letter-spacing: -.3px; }
-  .chips { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; max-width: 640px; }
-  .chip { padding: 11px 16px; border-radius: 999px; font: 600 16px/1 Inter, sans-serif;
-    background: rgba(18,18,30,.62); border: 1px solid rgba(255,255,255,.16);
-    backdrop-filter: blur(10px); color: #fff; white-space: nowrap;
-    box-shadow: 0 8px 24px rgba(0,0,0,.25); }
-  .chip b { color: var(--amber); font-weight: 800; }
+  .stat { padding: 18px 24px 17px; border-radius: 18px; text-align: left;
+    background: rgba(20,18,36,.66); border: 1px solid rgba(255,255,255,.16);
+    backdrop-filter: blur(14px); box-shadow: 0 14px 40px rgba(20,10,40,.28); }
+  .stat .k { font: 700 12.5px/1 Inter, sans-serif; letter-spacing: 1.6px; text-transform: uppercase;
+    color: #c9c2e6; display: flex; align-items: center; gap: 8px; }
+  .stat .k i { width: 8px; height: 8px; border-radius: 50%; background: #7ee2a8;
+    box-shadow: 0 0 0 4px rgba(126,226,168,.18); display: inline-block; }
+  .stat .v { font: 800 31px/1.15 "Inter Display", Inter, sans-serif; letter-spacing: -.6px;
+    color: #fff; margin: 11px 0 9px; white-space: nowrap; }
+  .stat .v em { font-style: normal; color: #ffcf7a; }
+  .stat .v .arr { color: #c4b5fd; margin: 0 6px; font-weight: 600; }
+  .stat .s { font: 500 15.5px/1.2 Inter, sans-serif; color: #e4def7; white-space: nowrap; }
+  .stat .s b { color: #fff; font-weight: 700; }
 
   /* windows */
   .win { position: absolute; border-radius: 16px; overflow: hidden;
@@ -94,14 +101,12 @@
     <div class="brand"><span class="logo">🦞</span><span class="name">clawtube</span></div>
     <div class="tag">One YouTube playlist link &rarr; every transcript, clean and timestamped.</div>
   </div>
-  <div class="chips">
-    <div class="chip">YC · AI Startup School</div>
-    <div class="chip"><b>17</b> talks</div>
-    <div class="chip"><b>11.4 h</b> of video</div>
-    <div class="chip"><b>130k</b> words</div>
-    <div class="chip"><b>56 s</b></div>
-    <div class="chip">no API key</div>
+  <div class="stat">
+    <div class="k"><i></i>Real run · YC AI Startup School playlist</div>
+    <div class="v"><em>11.4 h</em> of video<span class="arr">&rarr;</span><em>130k</em> words</div>
+    <div class="s"><b>17 talks</b> transcribed in <b>56 seconds</b> &nbsp;·&nbsp; no API key</div>
   </div>
+</div>
 </div>
 
 <div class="win term">
