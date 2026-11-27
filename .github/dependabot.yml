@@ -1,0 +1,9 @@
+# Keeps the GitHub Actions used by CI/release up to date. Python dependencies
+# are deliberately left alone: pyproject.toml only sets minimum versions, and
+# users always get the newest yt-dlp at install time.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

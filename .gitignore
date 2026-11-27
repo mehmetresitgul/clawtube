@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+clawtube_out/
+.clawtube_state.json
+.clawtube_cache/
+.pytest_cache/
