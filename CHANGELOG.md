@@ -19,6 +19,8 @@ All notable changes to this project are documented here. The format follows
   `v*` tag is pushed, and a weekly live smoke test against YouTube.
 
 ### Changed
+- New README demo: a real run on Y Combinator's AI Startup School playlist (17 talks in 56 s),
+  plus a social preview image; the image's source is in `assets/demo-source/`.
 - Ready for public use: code of conduct, pull request template, feature-request template, a
   private route for security reports, Dependabot for GitHub Actions, and a "Responsible use"
   section in the README.

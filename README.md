@@ -20,7 +20,13 @@ The CLI works anywhere. The skills are written for agent runtimes that support t
 
 ## Demo
 
-![clawtube demo - playlist extraction and Markdown output](assets/demo.svg)
+[![clawtube turning Y Combinator's AI Startup School playlist into 17 Markdown transcripts in 56 seconds](assets/demo.jpg)](https://www.youtube.com/playlist?list=PLQ-uHSnFig5NPx4adxl97CZb8vU4numwi)
+
+A real run, not a mock-up: Y Combinator's [AI Startup School](https://www.youtube.com/playlist?list=PLQ-uHSnFig5NPx4adxl97CZb8vU4numwi) playlist (Andrej Karpathy, Sam Altman, Satya Nadella, Fei-Fei Li, Andrew Ng and more) - 17 talks, 11.4 hours of video, about 130,000 words of timestamped transcript in 56 seconds. Try it yourself:
+
+```bash
+clawtube playlist "https://www.youtube.com/playlist?list=PLQ-uHSnFig5NPx4adxl97CZb8vU4numwi"
+```
 
 ## Why clawtube
 
